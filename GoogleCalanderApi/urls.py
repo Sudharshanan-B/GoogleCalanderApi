@@ -23,9 +23,6 @@ urlpatterns = [
     path('', LandingPageView, name='landing_page'),
     path('init/', GoogleCalendarInitView.as_view(), name='calendar_init'),
     path('redirect/', GoogleCalendarRedirectView.as_view(), name='calendar_redirect'),
-    # path('rest/v1/calendar/init/', GoogleCalendarInitView.as_view(), name='calendar_init'),
     path('rest/v1/calendar/redirect/', GoogleCalendarRedirectView.as_view(), name='calendar_redirect'),
-    
-    # path('events/', EventListView.as_view(), name='event_list'),
     path('admin/', admin.site.urls)
 ]
