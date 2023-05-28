@@ -6,6 +6,9 @@ from django.views import View
 from urllib.parse import urlencode
 from django.http import JsonResponse
 from django.shortcuts import render
+from google.oauth2 import credentials
+from google.auth.transport.requests import Request
+from django.urls import reverse
 
 GOOGLE_OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth"
 GOOGLE_OAUTH2_TOKEN_URL = "https://accounts.google.com/o/oauth2/token"
@@ -28,10 +31,8 @@ class GoogleCalendarInitView(View):
 
 class GoogleCalendarRedirectView(View):
     def get(self, request):
-        # Step 2: Handle redirect request from Google with authorization code
         code = request.GET.get('code')
 
-        # Exchange authorization code for access token
         token_data = {
             'code': code,
             'client_id': settings.CLIENT_ID,
@@ -39,12 +40,23 @@ class GoogleCalendarRedirectView(View):
             'redirect_uri': request.build_absolute_uri('/rest/v1/calendar/redirect/'),
             'grant_type': 'authorization_code',
         }
+
         token_response = requests.post(GOOGLE_OAUTH2_TOKEN_URL, data=token_data)
         token_json = token_response.json()
+
+        if 'error' in token_json and token_json['error'] == 'invalid_grant':
+            # Handle invalid_grant error by redirecting to the authorization URL again
+            return HttpResponseRedirect(reverse('calendar_init'))
+
         access_token = token_json.get('access_token')
+        refresh_token = token_json.get('refresh_token')
 
         if access_token:
-            # Get list of events using the access token
+            # Store the access token and refresh token in the session
+            request.session['access_token'] = access_token
+            request.session['refresh_token'] = refresh_token
+
+            # Rest of the code to retrieve events
             headers = {
                 'Authorization': f'Bearer {access_token}',
                 'Accept': 'application/json',
@@ -54,7 +66,7 @@ class GoogleCalendarRedirectView(View):
             events = events_json.get('items', [])
             # Process and return the events as needed
             return JsonResponse({'events': events})
-
-        # Handle error case when access token is not obtained
+            
+        # Handle other error cases
         error = token_json.get('error', 'Unknown error')
         return JsonResponse({'error': error}, status=400)
