@@ -11,6 +11,8 @@ GOOGLE_OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth"
 GOOGLE_OAUTH2_TOKEN_URL = "https://accounts.google.com/o/oauth2/token"
 GOOGLE_API_EVENTS_URL = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
 
+def LandingPageView(request):
+    return render(request, 'landing.html')
 
 class GoogleCalendarInitView(View):
     def get(self, request):

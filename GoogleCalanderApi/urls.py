@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import GoogleCalendarInitView, GoogleCalendarRedirectView
-
+from .views import LandingPageView
 
 urlpatterns = [
+    path('', LandingPageView, name='landing_page'),
     path('init/', GoogleCalendarInitView.as_view(), name='calendar_init'),
     path('redirect/', GoogleCalendarRedirectView.as_view(), name='calendar_redirect'),
     # path('rest/v1/calendar/init/', GoogleCalendarInitView.as_view(), name='calendar_init'),
