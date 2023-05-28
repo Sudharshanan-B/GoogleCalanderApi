@@ -1,0 +1,22 @@
+.intro {
+    padding-top: 95px;
+    padding-left: 700px;
+    color: red;
+}
+.calender {
+    width: 50px;
+    height: 50px;
+}
+.signin {
+    color: blue;
+    padding-left: 700px;
+}
+.google {
+    padding-left: 700px;
+    width: 100px;
+    height: auto;
+}
+.container {
+    background-image: url("./bg.jpg");
+    background-position: center;
+}
