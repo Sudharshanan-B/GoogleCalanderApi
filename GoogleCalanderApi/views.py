@@ -8,6 +8,8 @@ from django.views import View
 from urllib.parse import urlencode
 from google.oauth2 import credentials
 from google.auth.transport.requests import Request
+from .models import Event
+
 
 GOOGLE_OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth"
 GOOGLE_OAUTH2_TOKEN_URL = "https://accounts.google.com/o/oauth2/token"
@@ -64,10 +66,21 @@ class GoogleCalendarRedirectView(View):
             events_response = requests.get(GOOGLE_API_EVENTS_URL, headers=headers)
             events_json = events_response.json()
             events = events_json.get('items', [])
-            
-            # Pass the events to the template for rendering
-            return render(request, 'events.html', {'events': events})
 
+            for event in events:
+                # Create an Event object and save it to the database
+                Event.objects.create(
+                    title=event['summary'],
+                    start_time=event['start'].get('dateTime', event['start'].get('date')),
+                    end_time=event['end'].get('dateTime', event['end'].get('date')),
+                    # Set other fields as needed
+                )
+
+            # Get all the events from the database
+            saved_events = Event.objects.all()
+            
+            # Pass the saved events to the template for rendering
+            return render(request, 'events.html', {'events': saved_events})
 
         error = token_json.get('error', 'Unknown error')
         return JsonResponse({'error': error}, status=400)
