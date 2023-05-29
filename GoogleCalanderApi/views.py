@@ -64,7 +64,10 @@ class GoogleCalendarRedirectView(View):
             events_response = requests.get(GOOGLE_API_EVENTS_URL, headers=headers)
             events_json = events_response.json()
             events = events_json.get('items', [])
-            return JsonResponse({'events': events})
+            
+            # Pass the events to the template for rendering
+            return render(request, 'events.html', {'events': events})
+
 
         error = token_json.get('error', 'Unknown error')
         return JsonResponse({'error': error}, status=400)

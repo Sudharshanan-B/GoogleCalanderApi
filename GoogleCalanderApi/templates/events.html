@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events</title>
+</head>
+<body>
+    <h1>Events</h1>
+    <ul>
+        {% for event in events %}
+            <li>
+                <h3>{{ event.title }}</h3>
+                <p><strong>Start:</strong> {{ event.start }}</p>
+                <p><strong>End:</strong> {{ event.end }}</p>
+                <p><strong>Summary:</strong> {{ event.summary }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
