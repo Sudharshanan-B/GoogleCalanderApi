@@ -11,7 +11,8 @@ form of a list.
     <li> All the Events are stored in a Database for future use </li>
 </ul>
 
-
+## Checkout the demo video
+<a href="https://drive.google.com/file/d/13ypZq-2_BtKqbSAWQwn2rI2AQXKbsZ2X/view?usp=share_link">Demo Video</a>
 ## App Images
 ![Start page](app-images/landing-page.png)
 
