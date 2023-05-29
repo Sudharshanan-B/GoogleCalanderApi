@@ -1,1 +1,8 @@
+# directories
+app-images/
+GoogleCalanderApi/__pycache__/
+
+# files
+db.sqlite3
 .env
+GoogleCalanderApi/__init__.py
