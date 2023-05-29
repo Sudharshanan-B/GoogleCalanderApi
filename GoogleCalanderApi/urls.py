@@ -20,9 +20,8 @@ from .views import GoogleCalendarInitView, GoogleCalendarRedirectView
 from .views import LandingPageView
 
 urlpatterns = [
-    path('', LandingPageView, name='landing_page'),
-    path('init/', GoogleCalendarInitView.as_view(), name='calendar_init'),
-    path('redirect/', GoogleCalendarRedirectView.as_view(), name='calendar_redirect'),
+    path('', LandingPageView.as_view(), name='landing_page'),
+    path('rest/v1/calendar/init/', GoogleCalendarInitView.as_view(), name='calendar_init'),
     path('rest/v1/calendar/redirect/', GoogleCalendarRedirectView.as_view(), name='calendar_redirect'),
     path('admin/', admin.site.urls)
 ]
