@@ -13,7 +13,6 @@ form of a list.
 
 
 ## App Images
-### start page
 ![Start page](app-images/landing-page.png)
 
 ### Google OAuth2
